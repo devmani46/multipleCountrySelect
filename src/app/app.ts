@@ -1,12 +1,42 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Combobox } from './component/combobox/combobox';
+import { Country } from './services/country';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [CommonModule, FormsModule, Combobox],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrls: ['./app.scss']
 })
-export class App {
-  protected readonly title = signal('multipleCombobox');
+export class App implements OnInit {
+  title = 'Country Combobox';
+
+  countries: string[] = [];
+  // selectedCountry1: string | null = null;
+  // selectedCountry2: string | null = null;
+  // selectedCountry3: string | null = null;
+
+    selectedCountries: (string | null)[] = [];
+
+  constructor(private country: Country) {}
+
+  ngOnInit(): void {
+    this.country.getAllCountryNames().subscribe({
+      next: (names) => {
+        this.countries = names;
+
+      },
+      error: (err) => {
+        console.error('Error loading countries:', err);
+      }
+    });
+  }
+
+    onCountriesSelected(countries: string[]): void {
+      this.selectedCountries = countries;
+}
+
 }
