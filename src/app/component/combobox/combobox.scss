@@ -13,6 +13,21 @@
     cursor: pointer;
     background: #fff;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+
+  .selected-preview {
+    position: absolute;
+    left: 8px;
+    right: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #666;
+    font-size: 14px;
+    pointer-events: none;
+  }
 
     &:hover {
       border-color: #999;
@@ -59,6 +74,7 @@
     width: 100%;
     z-index: 1000;
 
+    // dropdown animation
     opacity: 0;
     transform: scaleY(0.95);
     transform-origin: top;
@@ -110,7 +126,6 @@
       }
 
       &.selected {
-        background: #e6f2ff;
         font-weight: 500;
       }
 
@@ -126,6 +141,7 @@
   }
 }
 
+/* Fluent-style animated underline */
 .fw-combobox {
   position: relative;
   min-width: 250px;

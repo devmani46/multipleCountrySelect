@@ -19,7 +19,7 @@ export class App implements OnInit {
   // selectedCountry2: string | null = null;
   // selectedCountry3: string | null = null;
 
-    selectedCountries: (string | null)[] = [];
+    selectedCountries: any[] = [];
 
   constructor(private country: Country) {}
 
@@ -35,8 +35,8 @@ export class App implements OnInit {
     });
   }
 
-    onCountriesSelected(countries: string[]): void {
-      this.selectedCountries = countries;
+onCountrySelected(index: number, value: any): void {
+  this.selectedCountries[index] = value;
 }
 
 }

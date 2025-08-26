@@ -1,10 +1,23 @@
 <app-combobox
   [options]="countries"
-  [searchable]="true"
-  placeholder="Select or Search Country"
-  (valueChange)="onCountriesSelected($event)"
+  [multiple]="true"
+  placeholder="Select multiple countries"
+  (valueChange)="onCountrySelected(0, $event)"
 ></app-combobox>
-
-@if (selectedCountries.length > 0) {
-  <p>You selected: <strong>{{ selectedCountries.join(', ') }}</strong></p>
+@if (selectedCountries[0]) {
+  <p>You selected: <strong>{{ selectedCountries[0] }}</strong></p>
 }
+
+
+<hr />
+
+<app-combobox
+  [options]="countries"
+  [multiple]="false"
+  placeholder="Select a country"
+  (valueChange)="onCountrySelected(1, $event)"
+></app-combobox>
+@if (selectedCountries[1]) {
+  <p>You selected: <strong>{{ selectedCountries[1] }}</strong></p>
+}
+

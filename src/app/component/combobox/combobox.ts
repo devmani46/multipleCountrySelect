@@ -1,4 +1,4 @@
-import { Component,Input,Output,EventEmitter,ElementRef,OnDestroy,HostListener,ViewChildren,QueryList,AfterViewInit } from '@angular/core';
+import {Component,Input,Output,EventEmitter,ElementRef,OnDestroy,HostListener,ViewChildren,QueryList,AfterViewInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -14,8 +14,9 @@ export class Combobox implements OnDestroy, AfterViewInit {
   @Input() placeholder: string = 'Select options';
   @Input() searchable: boolean = true;
   @Input() disabledOptions: string[] = [];
+  @Input() multiple: boolean = true;
 
-  @Output() valueChange = new EventEmitter<string[]>();
+  @Output() valueChange = new EventEmitter<string[] | string>();
 
   searchText: string = '';
   isOpen: boolean = false;
@@ -43,8 +44,21 @@ export class Combobox implements OnDestroy, AfterViewInit {
   get displayPlaceholder(): string {
     if (this.selected.length === 0) return this.placeholder;
 
-    const joined = this.selected.join(', ');
-    return joined.length > 25 ? joined.slice(0, 25) + '...' : joined;
+    if (!this.multiple) {
+      return this.selected[0];
+    }
+
+    const max = 30;
+    let result = '';
+    for (let i = 0; i < this.selected.length; i++) {
+      const next = (result ? ', ' : '') + this.selected[i];
+      if ((result + next).length > max) {
+        result += '...';
+        break;
+      }
+      result += next;
+    }
+    return result;
   }
 
   get tooltipText(): string {
@@ -69,14 +83,24 @@ export class Combobox implements OnDestroy, AfterViewInit {
   selectOption(option: string): void {
     if (this.disabledOptions.includes(option)) return;
 
-    const index = this.selected.indexOf(option);
-    if (index === -1) {
-      this.selected.push(option);
+    if (this.multiple) {
+      const index = this.selected.indexOf(option);
+      if (index === -1) {
+        this.selected.push(option);
+      } else {
+        this.selected.splice(index, 1);
+      }
+      this.valueChange.emit([...this.selected]);
     } else {
-      this.selected.splice(index, 1);
+      if (this.selected[0] === option) {
+        this.selected = [];
+        this.valueChange.emit('');
+      } else {
+        this.selected = [option];
+        this.valueChange.emit(option);
+      }
+      this.closeDropdown();
     }
-
-    this.valueChange.emit([...this.selected]);
   }
 
   onInputChange(value: string) {
@@ -136,8 +160,7 @@ export class Combobox implements OnDestroy, AfterViewInit {
 
       case 'Escape':
         event.preventDefault();
-        this.isOpen = false;
-        this.highlightedIndex = -1;
+        this.closeDropdown();
         break;
     }
   }

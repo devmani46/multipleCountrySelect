@@ -4,9 +4,13 @@
       <input
         [ngModel]="searchText"
         (ngModelChange)="onInputChange($event)"
-        [placeholder]="placeholder"
+        [placeholder]="selected.length ? '' : placeholder"
         (focus)="openDropdown()"
       />
+
+      @if (selected.length && !searchText) {
+        <span class="selected-preview">{{ displayPlaceholder }}</span>
+      }
     } @else {
       <div class="non-searchable" (click)="toggleDropdown()">
         {{ displayPlaceholder }}
@@ -28,16 +32,18 @@
     }
 
     @for (option of filteredOptions; let i = $index; track option) {
-      <li
-        #optionItem
-        (click)="selectOption(option)"
-        [class.disabled]="isDisabled(option)"
-        [class.highlighted]="i === highlightedIndex"
-        [class.selected]="isSelected(option)"
-      >
-        <input type="checkbox" [checked]="isSelected(option)" />
-        {{ option }}
-      </li>
+        <li
+          #optionItem
+          (click)="selectOption(option)"
+          [class.disabled]="isDisabled(option)"
+          [class.highlighted]="i === highlightedIndex"
+          [class.selected]="isSelected(option)"
+        >
+          @if (multiple) {
+            <input type="checkbox" [checked]="isSelected(option)" />
+          }
+          {{ option }}
+        </li>
     }
   </ul>
 </div>
