@@ -132,13 +132,11 @@ export class Combobox implements OnDestroy, AfterViewInit {
 
     switch (event.key) {
       case 'ArrowDown':
-        event.preventDefault();
         this.highlightedIndex = (this.highlightedIndex + 1) % options.length;
         this.scrollHighlightedIntoView();
         break;
 
       case 'ArrowUp':
-        event.preventDefault();
         this.highlightedIndex =
           this.highlightedIndex > 0
             ? this.highlightedIndex - 1
@@ -147,21 +145,18 @@ export class Combobox implements OnDestroy, AfterViewInit {
         break;
 
       case 'Enter':
-        event.preventDefault();
         if (this.highlightedIndex >= 0 && this.highlightedIndex < options.length) {
           this.selectOption(options[this.highlightedIndex]);
         }
         break;
 
       case 'Escape':
-        event.preventDefault();
         this.closeDropdown();
         break;
     }
   }
 
   scrollHighlightedIntoView() {
-    setTimeout(() => {
       const items = this.optionItems.toArray();
       if (items[this.highlightedIndex]) {
         items[this.highlightedIndex].nativeElement.scrollIntoView({
@@ -169,7 +164,6 @@ export class Combobox implements OnDestroy, AfterViewInit {
           block: 'nearest'
         });
       }
-    }, 0);
   }
 
   ngOnDestroy(): void {

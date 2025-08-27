@@ -6,13 +6,11 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [CommonModule, FormsModule, Combobox],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })
 export class App implements OnInit {
-  title = 'Country Combobox';
 
   countries: string[] = [];
   // selectedCountry1: string | null = null;
@@ -29,9 +27,6 @@ export class App implements OnInit {
         this.countries = names;
 
       },
-      error: (err) => {
-        console.error('Error loading countries:', err);
-      }
     });
   }
 
