@@ -13,11 +13,7 @@ import { FormsModule } from '@angular/forms';
 export class App implements OnInit {
 
   countries: string[] = [];
-  // selectedCountry1: string | null = null;
-  // selectedCountry2: string | null = null;
-  // selectedCountry3: string | null = null;
-
-    selectedCountries: any[] = [];
+  selectedCountries: any[] = [];
 
   constructor(private country: Country) {}
 
@@ -25,7 +21,6 @@ export class App implements OnInit {
     this.country.getAllCountryNames().subscribe({
       next: (names) => {
         this.countries = names;
-
       },
     });
   }
@@ -33,5 +28,4 @@ export class App implements OnInit {
 onCountrySelected(index: number, value: any): void {
   this.selectedCountries[index] = value;
 }
-
 }
