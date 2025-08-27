@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-combobox',
-  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './combobox.html',
   styleUrls: ['./combobox.scss']
@@ -59,10 +58,6 @@ export class Combobox implements OnDestroy, AfterViewInit {
       result += next;
     }
     return result;
-  }
-
-  get tooltipText(): string {
-    return this.selected.length > 0 ? this.selected.join(', ') : '';
   }
 
   openDropdown(): void {
